@@ -25,14 +25,23 @@ android {
             )
         }
     }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
     }
 }
 
-dependencies {
+// ✅ 이 프로젝트에서만 버전 강제 고정 (다른 프로젝트에 영향 없음)
+configurations.all {
+    resolutionStrategy {
+        // activity 라이브러리를 1.9.3으로 강제 고정
+        force("androidx.activity:activity:1.9.3")
+        force("androidx.activity:activity-ktx:1.9.3")
+    }
+}
 
+dependencies {
     implementation(libs.appcompat)
     implementation(libs.material)
     implementation(libs.activity)
@@ -40,4 +49,7 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
+
+    // ✅ 명시적으로 1.9.3 버전 사용
+    implementation("androidx.activity:activity:1.9.3")
 }
