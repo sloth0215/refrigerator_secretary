@@ -9,7 +9,7 @@
         android:id="@+id/textViewProfile"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="프로필 화면"
+        android:text="카메라"
         android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -17,4 +17,5 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <!--카메라 엑티비티 연결 버튼-->
 </androidx.constraintlayout.widget.ConstraintLayout>

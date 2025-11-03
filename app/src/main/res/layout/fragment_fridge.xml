@@ -9,7 +9,7 @@
         android:id="@+id/textViewHome"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="홈 화면"
+        android:text="냉장고"
         android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -17,4 +17,5 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <!-- 아이템 추가 버튼 -->
 </androidx.constraintlayout.widget.ConstraintLayout>
