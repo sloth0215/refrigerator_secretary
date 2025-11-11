@@ -102,7 +102,6 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      * Fragment를 로드하는 메서드
-     * @param fragment 로드할 Fragment
      */
     private void loadFragment(@NonNull Fragment fragment) {
         FragmentTransaction transaction = fragmentManager.beginTransaction();
