@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
@@ -33,9 +34,27 @@ public class MainActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
 
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
+        // BottomNavigationView 먼저 찾기
+        bottomNavigationView = findViewById(R.id.bottom_navigation);
+        bottomNavigationView.setItemIconTintList(null);
+        bottomNavigationView.setItemTextColor(null);
+
+        // 루트 뷰에 인셋 적용, 키보드 보이면 바텀바 숨기기
+        View root = findViewById(R.id.main);
+        ViewCompat.setOnApplyWindowInsetsListener(root, (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
+            Insets imeInsets = insets.getInsets(WindowInsetsCompat.Type.ime());
+            boolean imeVisible = insets.isVisible(WindowInsetsCompat.Type.ime());
+
+            // 상단/좌우는 시스템 바 여백만, 하단은 직접 조절
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, 0);
+
+            // 바텀바는 네비게이션바 높이만큼만 padding
+            bottomNavigationView.setPadding(0, 0, 0, systemBars.bottom);
+
+            // 키보드 보이면 바텀바 숨기고, 키보드 없으면 다시 보이게
+            bottomNavigationView.setVisibility(imeVisible ? View.GONE : View.VISIBLE);
+
             return insets;
         });
 
@@ -92,7 +111,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.action_settings) {
-            // 🆕 SettingsActivity로 이동 (Fragment 대신 Activity)
+            //SettingsActivity로 이동 (Fragment 대신 Activity)
             Intent intent = new Intent(this, SettingsActivity.class);
             startActivity(intent);
             return true;

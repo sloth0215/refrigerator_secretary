@@ -3,6 +3,7 @@ import java.io.FileInputStream
 
 plugins {
     alias(libs.plugins.android.application)
+    id("com.google.gms.google-services")
 }
 
 // local.properties 파일 읽기
@@ -14,6 +15,7 @@ if (localPropertiesFile.exists()) {
 
 // API 키 가져오기
 val openaiApiKey: String = localProperties.getProperty("OPENAI_API_KEY") ?: ""
+val geminiApiKey: String = localProperties.getProperty("GEMINI_API_KEY") ?: ""
 
 android {
     namespace = "com.example.makefoods"
@@ -30,6 +32,7 @@ android {
 
         // BuildConfig에 API 키 추가
         buildConfigField("String", "OPENAI_API_KEY", "\"$openaiApiKey\"")
+        buildConfigField("String", "GEMINI_API_KEY", "\"$geminiApiKey\"")
     }
 
     // BuildConfig 기능 활성화
@@ -80,4 +83,30 @@ dependencies {
     // 라이프사이클
     implementation("androidx.lifecycle:lifecycle-viewmodel:2.8.4")
     implementation("androidx.lifecycle:lifecycle-livedata:2.8.4")
+
+    // ML Kit (로컬 OCR 영수증용)
+    implementation("com.google.mlkit:text-recognition:16.0.1")
+
+
+    // Gemini AI (식재료 인식용)
+    implementation("com.google.ai.client.generativeai:generativeai:0.9.0")
+    implementation("com.google.guava:guava:33.0.0-android")
+
+    // 카메라 관련
+    implementation("androidx.camera:camera-camera2:1.3.4")
+    implementation("androidx.camera:camera-lifecycle:1.3.4")
+    implementation("androidx.camera:camera-view:1.3.4")
+
+    // 코루틴 (Gemini SDK가 필요로 함)
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.8.1")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.8.1")
+
+    // Firebase BoM (버전 관리)
+    implementation(platform("com.google.firebase:firebase-bom:34.5.0"))
+
+    // Firebase AI Logic (Gemini용)
+    implementation("com.google.firebase:firebase-ai")
+
+    // Firebase Firestore (데이터베이스용 - 나중에 사용)
+    implementation("com.google.firebase:firebase-firestore")
 }

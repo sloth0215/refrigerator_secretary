@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    인식 결과 수정용 BottomSheet
+    - 큰 화면에서 편하게 텍스트 수정
+    - 키보드가 올라와도 문제 없음
+-->
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="24dp"
+    android:background="@drawable/rounded_button_bg">
+
+    <!-- 타이틀 -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="식재료 목록 수정"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:textColor="@color/black"
+        android:layout_marginBottom="16dp" />
+
+    <!-- 수정 가능한 EditText -->
+    <EditText
+        android:id="@+id/etEditResult"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:hint="식재료를 입력하세요"
+        android:gravity="top|start"
+        android:padding="12dp"
+        android:background="@android:color/white"
+        android:textSize="16sp"
+        android:inputType="textMultiLine"
+        android:scrollbars="vertical" />
+
+    <!-- 완료 버튼 -->
+    <Button
+        android:id="@+id/btnComplete"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="완료"
+        android:textColor="@color/white"
+        android:background="@drawable/rounded_button_bg"
+        android:layout_marginTop="16dp" />
+
+</LinearLayout>

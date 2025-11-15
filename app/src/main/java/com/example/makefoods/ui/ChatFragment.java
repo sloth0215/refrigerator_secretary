@@ -9,6 +9,9 @@ import android.widget.ImageButton;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -37,28 +40,52 @@ public class ChatFragment extends Fragment {
                               @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        //  RecyclerView & Adapter
+        //  RecyclerView & Adapter 설정
         RecyclerView rv = view.findViewById(R.id.recyclerViewChat);
         rv.setLayoutManager(new LinearLayoutManager(requireContext()));
         adapter = new ChatAdapter();
         rv.setAdapter(adapter);
 
-        // ViewModel
+        // 키보드가 올라올 때 Fragment 전체를 위로 올리기
+        // 루트 뷰(LinearLayout)에 WindowInsets 적용
+        ViewCompat.setOnApplyWindowInsetsListener(view, (v, insets) -> {
+            // IME(키보드)의 높이를 가져옴
+            Insets imeInsets = insets.getInsets(WindowInsetsCompat.Type.ime());
+            int bottomInset = imeInsets.bottom;
+
+            // 루트 뷰의 하단 패딩을 키보드 높이만큼 설정
+            // 이렇게 하면 입력창이 키보드 위로 올라감
+            v.setPadding(
+                    v.getPaddingLeft(),
+                    v.getPaddingTop(),
+                    v.getPaddingRight(),
+                    bottomInset
+            );
+
+            // WindowInsets를 소비했다고 알림
+            return insets;
+        });
+
+        // ViewModel 설정
         viewModel = new ViewModelProvider(this).get(ChatViewModel.class);
+
+        // 메시지 리스트 관찰 및 화면 업데이트
         viewModel.getMessages().observe(getViewLifecycleOwner(), list -> {
             adapter.submitList(list);
+            // 새 메시지가 추가되면 맨 아래로 스크롤
             rv.scrollToPosition(Math.max(0, adapter.getItemCount() - 1));
         });
 
-        // 입력창 & 전송버튼
+        // 입력창 & 전송버튼 설정
         EditText etMessage = view.findViewById(R.id.etMessage);
         ImageButton btnSend = view.findViewById(R.id.btnSend);
 
+        // 전송 버튼 클릭 이벤트
         btnSend.setOnClickListener(v -> {
             String text = etMessage.getText().toString().trim();
             if (!text.isEmpty()) {
                 viewModel.sendUserMessage(text);
-                etMessage.setText("");
+                etMessage.setText("");  // 입력창 비우기
             }
         });
     }

@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    ImageResultFragment 레이아웃
+    - 촬영한 이미지 미리보기
+    - 인식된 텍스트 확인 및 수정
+    - ScrollView를 사용하여 키보드가 올라와도 모든 내용을 볼 수 있음
+-->
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    android:background="@color/white">
+
+    <!-- 전체 콘텐츠를 담는 LinearLayout -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <!-- 상단 타이틀 -->
+        <TextView
+            android:id="@+id/tvTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="인식 결과 확인"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            android:layout_marginTop="16dp" />
+
+        <!-- 안내 텍스트 -->
+        <TextView
+            android:id="@+id/tvGuide"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="인식된 식재료를 확인하고 수정하세요"
+            android:textSize="14sp"
+            android:textColor="@color/black"
+            android:layout_marginTop="8dp" />
+
+        <!-- 촬영한 이미지 미리보기 -->
+        <ImageView
+            android:id="@+id/ivPreview"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:scaleType="centerCrop"
+            android:background="@drawable/black_rounded_box"
+            android:layout_marginTop="16dp"
+            android:contentDescription="촬영한 이미지" />
+
+        <!-- 인식 결과 레이블 -->
+        <TextView
+            android:id="@+id/tvResultLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="인식된 식재료 목록:"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            android:layout_marginTop="24dp" />
+
+        <!--
+            결과 수정 가능한 EditText
+            - wrap_content: 내용에 따라 높이 자동 조절
+            - minHeight: 최소 높이 보장
+            - scrollbars: EditText 내부도 스크롤 가능
+            - maxLines 제거: 자유롭게 확장 가능
+        -->
+        <EditText
+            android:id="@+id/etResult"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="150dp"
+            android:hint="여기에 식재료가 표시됩니다"
+            android:gravity="top|start"
+            android:padding="12dp"
+            android:background="@drawable/rounded_button_bg"
+            android:textSize="14sp"
+            android:inputType="textMultiLine"
+            android:scrollbars="vertical"
+            android:layout_marginTop="8dp" />
+
+        <!-- 버튼 컨테이너 -->
+        <LinearLayout
+            android:id="@+id/buttonContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp">
+
+            <!-- 다시 촬영 버튼 -->
+            <Button
+                android:id="@+id/btnRetake"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="다시 촬영"
+                android:textColor="@color/white"
+                android:background="@drawable/rounded_button_bg"
+                android:layout_marginEnd="8dp" />
+
+            <!-- 냉장고에 추가 버튼 -->
+            <Button
+                android:id="@+id/btnAddToFridge"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="냉장고에 추가"
+                android:textColor="@color/white"
+                android:background="@drawable/rounded_button_bg"
+                android:layout_marginStart="8dp" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</ScrollView>

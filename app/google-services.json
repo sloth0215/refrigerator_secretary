@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1006200508836",
+    "project_id": "makefoods-36fb6",
+    "storage_bucket": "makefoods-36fb6.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1006200508836:android:d1a506dc0232c7d4e0f131",
+        "android_client_info": {
+          "package_name": "com.example.makefoods"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAfr79QxT8HtQ3JnWJfatGltKomR7wFdEk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
