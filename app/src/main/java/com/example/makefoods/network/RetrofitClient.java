@@ -27,7 +27,7 @@ public class RetrofitClient {
                     }).build();
 
             retrofit = new Retrofit.Builder()
-                    .baseUrl("https://api.openai.com/") // 고정
+                    .baseUrl("https://api.openai.com/")
                     .client(client)
                     .addConverterFactory(GsonConverterFactory.create())
                     .build();

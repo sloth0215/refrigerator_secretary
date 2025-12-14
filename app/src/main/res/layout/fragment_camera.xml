@@ -7,7 +7,7 @@
     android:background="@color/white">
 
 
-    <!-- 큰 카메라 아이콘 -->
+
     <ImageView
         android:id="@+id/cameraIcon"
         android:layout_width="150dp"
@@ -21,7 +21,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintVertical_bias="0.35" />
 
-    <!-- 안내 텍스트 -->
+
     <TextView
         android:id="@+id/guideText"
         android:layout_width="wrap_content"
@@ -36,7 +36,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <!-- 버튼 컨테이너 -->
+
     <LinearLayout
         android:id="@+id/buttonContainer"
         android:layout_width="0dp"
@@ -49,7 +49,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
-        <!-- 영수증 인식 버튼 -->
+
         <LinearLayout
             android:id="@+id/btnReceipt"
             android:layout_width="0dp"
@@ -89,7 +89,7 @@
             android:layout_width="12dp"
             android:layout_height="match_parent" />
 
-        <!-- 식재료 인식 버튼 -->
+
         <LinearLayout
             android:id="@+id/btnIngredient"
             android:layout_width="0dp"

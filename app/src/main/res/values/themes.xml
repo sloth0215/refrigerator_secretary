@@ -5,6 +5,9 @@
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
 
         <item name="colorPrimary">@color/blue</item>
+
+        <item name="android:fontFamily">@font/rkddnsjrydbr</item>
+        <item name="fontFamily">@font/rkddnsjrydbr</item>
     </style>
 
     <style name="Theme.Makefoods" parent="Base.Theme.Makefoods" />

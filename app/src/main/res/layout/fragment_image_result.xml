@@ -1,10 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-    ImageResultFragment 레이아웃
-    - 촬영한 이미지 미리보기
-    - 인식된 텍스트 확인 및 수정
-    - ScrollView를 사용하여 키보드가 올라와도 모든 내용을 볼 수 있음
--->
+
 <ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -13,7 +8,7 @@
     android:fillViewport="true"
     android:background="@color/white">
 
-    <!-- 전체 콘텐츠를 담는 LinearLayout -->
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -62,13 +57,7 @@
             android:textColor="@color/black"
             android:layout_marginTop="24dp" />
 
-        <!--
-            결과 수정 가능한 EditText
-            - wrap_content: 내용에 따라 높이 자동 조절
-            - minHeight: 최소 높이 보장
-            - scrollbars: EditText 내부도 스크롤 가능
-            - maxLines 제거: 자유롭게 확장 가능
-        -->
+
         <EditText
             android:id="@+id/etResult"
             android:layout_width="match_parent"

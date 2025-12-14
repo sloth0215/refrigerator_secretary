@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="12dp"
+    android:background="@drawable/black_rounded_box"
+    android:layout_margin="8dp"
+    android:gravity="top">
+
+    <!-- 레시피 이름 -->
+    <TextView
+        android:id="@+id/recipe_name_text_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="레시피 이름"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:textColor="@android:color/white"
+        android:layout_marginBottom="8dp" />
+
+    <!-- 조리 시간과 난이도 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginBottom="8dp">
+
+        <TextView
+            android:id="@+id/cooking_time_text_view"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="조리시간: 30분"
+            android:textSize="12sp"
+            android:textColor="@android:color/white" />
+
+        <TextView
+            android:id="@+id/difficulty_text_view"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="난이도: 보통"
+            android:textSize="12sp"
+            android:textColor="@android:color/white"
+            android:gravity="end" />
+    </LinearLayout>
+
+    <!-- 재료 목록 -->
+    <TextView
+        android:id="@+id/ingredients_text_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="재료: 소고기, 계란, 파"
+        android:textSize="11sp"
+        android:textColor="#CCCCCC"
+        android:lineSpacingExtra="4dp" />
+
+
+
+
+
+
+</LinearLayout>

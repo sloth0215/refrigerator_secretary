@@ -18,8 +18,8 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.example.makefoods.ui.CameraFragment;
-import com.example.makefoods.ui.ChatFragment;
-import com.example.makefoods.ui.FridgeFragment;
+import com.example.makefoods.ui.chat.ChatFragment;
+import com.example.makefoods.ui.fridge.FridgeFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity {
@@ -34,10 +34,9 @@ public class MainActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
 
-        // BottomNavigationView 먼저 찾기
+
         bottomNavigationView = findViewById(R.id.bottom_navigation);
-        bottomNavigationView.setItemIconTintList(null);
-        bottomNavigationView.setItemTextColor(null);
+
 
         // 루트 뷰에 인셋 적용, 키보드 보이면 바텀바 숨기기
         View root = findViewById(R.id.main);
@@ -46,36 +45,33 @@ public class MainActivity extends AppCompatActivity {
             Insets imeInsets = insets.getInsets(WindowInsetsCompat.Type.ime());
             boolean imeVisible = insets.isVisible(WindowInsetsCompat.Type.ime());
 
-            // 상단/좌우는 시스템 바 여백만, 하단은 직접 조절
+
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, 0);
 
-            // 바텀바는 네비게이션바 높이만큼만 padding
+
             bottomNavigationView.setPadding(0, 0, 0, systemBars.bottom);
 
-            // 키보드 보이면 바텀바 숨기고, 키보드 없으면 다시 보이게
+
             bottomNavigationView.setVisibility(imeVisible ? View.GONE : View.VISIBLE);
 
             return insets;
         });
 
-        // Toolbar 설정
+
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        // Fragment Manager 초기화
+
         fragmentManager = getSupportFragmentManager();
-
-        // BottomNavigationView 초기화
         bottomNavigationView = findViewById(R.id.bottom_navigation);
-        bottomNavigationView.setItemIconTintList(null);
-        bottomNavigationView.setItemTextColor(null);
 
-        // 기본 Fragment 로드
+
+
         if (savedInstanceState == null) {
             loadFragment(new FridgeFragment());
         }
 
-        // BottomNavigationView 아이템 선택 리스너
+
         bottomNavigationView.setOnItemSelectedListener(item -> {
             Fragment selectedFragment = null;
             int itemId = item.getItemId();
@@ -111,7 +107,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.action_settings) {
-            //SettingsActivity로 이동 (Fragment 대신 Activity)
+
             Intent intent = new Intent(this, SettingsActivity.class);
             startActivity(intent);
             return true;
@@ -119,9 +115,7 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    /**
-     * Fragment를 로드하는 메서드
-     */
+
     private void loadFragment(@NonNull Fragment fragment) {
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         transaction.replace(R.id.fragment_container, fragment);

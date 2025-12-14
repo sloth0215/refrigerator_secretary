@@ -12,31 +12,60 @@
         android:layout_weight="1"
         android:padding="8dp"
         android:overScrollMode="never"
-        android:clipToPadding="false"/>
+        android:clipToPadding="false"
+        android:background="@color/light_sky_blue"/>
 
-    <!-- 입력 바 -->
+    <!-- 입력 바 컨테이너 -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:padding="8dp">
+        android:padding="12dp"
+        android:gravity="center_vertical"
+        android:background="#F5F5F5">
 
-        <EditText
-            android:id="@+id/etMessage"
+        <!-- 입력창 -->
+        <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:hint="메시지를 입력하세요"
-            android:inputType="textCapSentences"
-            android:background="@android:color/transparent"/>
+            android:orientation="horizontal"
+            android:background="@drawable/bg_chat_input"
+            android:gravity="center_vertical"
+            android:paddingStart="16dp"
+            android:paddingEnd="8dp"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
+            android:layout_marginEnd="8dp">
+
+            <EditText
+                android:id="@+id/etMessage"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="메시지를 입력하세요"
+                android:textSize="15sp"
+                android:textColor="@color/black"
+                android:textColorHint="#9E9E9E"
+                android:inputType="textCapSentences|textMultiLine"
+                android:maxLines="4"
+                android:background="@android:color/transparent"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp" />
+
+        </LinearLayout>
 
         <ImageButton
             android:id="@+id/btnSend"
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:src="@drawable/ic_send2"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:contentDescription="전송"/>
+            android:background="@drawable/bg_send_button"
+            android:tint="@color/white"
+            android:padding="12dp"
+            android:contentDescription="전송"
+            android:elevation="2dp" />
+
     </LinearLayout>
 
 </LinearLayout>

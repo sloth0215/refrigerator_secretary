@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 바텀 네비게이션 아이콘/텍스트 색상 -->
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- 선택된 아이템: 하얀색 -->
+    <item android:color="#FFFFFF" android:state_checked="true" />
+    <!-- 선택 안 된 아이템: 반투명 하얀색 -->
+    <item android:color="#80FFFFFF" />
+</selector>

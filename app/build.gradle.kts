@@ -109,4 +109,8 @@ dependencies {
 
     // Firebase Firestore (데이터베이스용 - 나중에 사용)
     implementation("com.google.firebase:firebase-firestore")
+
+    // Room Database (로컬 데이터베이스)
+    implementation("androidx.room:room-runtime:2.6.1")
+    annotationProcessor("androidx.room:room-compiler:2.6.1")
 }

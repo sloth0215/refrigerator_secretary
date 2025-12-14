@@ -1,6 +1,7 @@
 package com.example.makefoods.ui;
 
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -37,7 +38,6 @@ public class CameraFragment extends Fragment {
     private LinearLayout btnIngredient;
 
     // API 서비스
-
     private GeminiService geminiService;
 
     // 권한 요청 런처
@@ -51,12 +51,14 @@ public class CameraFragment extends Fragment {
     // 현재 선택된 모드 (영수증 vs 식재료)
     private boolean isReceiptMode = false;
 
+    // 로딩 다이얼로그
+    private ProgressDialog progressDialog;
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         // API 서비스 초기화
-
         geminiService = new GeminiService();
 
         // 권한 요청 런처 초기화
@@ -181,9 +183,7 @@ public class CameraFragment extends Fragment {
         );
     }
 
-    /**
-     * 이미지 소스 선택 다이얼로그 (카메라 vs 갤러리)
-     */
+
     private void showImageSourceDialog() {
         String[] options = {"카메라로 촬영", "갤러리에서 선택"};
 
@@ -206,10 +206,8 @@ public class CameraFragment extends Fragment {
      */
     private void checkCameraPermissionAndOpen() {
         if (PermissionHelper.hasCameraPermission(this)) {
-            // 권한 있음 → 바로 카메라 열기
             openCamera();
         } else {
-            // 권한 없음 → 권한 요청
             PermissionHelper.requestCameraPermission(cameraPermissionLauncher);
         }
     }
@@ -219,10 +217,8 @@ public class CameraFragment extends Fragment {
      */
     private void checkGalleryPermissionAndOpen() {
         if (PermissionHelper.hasGalleryPermission(this)) {
-            // 권한 있음 → 바로 갤러리 열기
             openGallery();
         } else {
-            // 권한 없음 → 권한 요청
             PermissionHelper.requestGalleryPermission(galleryPermissionLauncher);
         }
     }
@@ -245,28 +241,46 @@ public class CameraFragment extends Fragment {
     }
 
     /**
-     * 이미지 처리 (OCR or Gemini)
+     * 이미지 처리
      */
     private void processImage(Bitmap bitmap) {
-        // 이미지 크기 조정 (API 효율을 위해)
+        // 로딩 다이얼로그 표시
+        showLoadingDialog();
+
         Bitmap resizedBitmap = ImageUtils.resizeBitmap(bitmap, 1024, 1024);
 
-        // 로딩 표시
-        Toast.makeText(requireContext(), "처리 중...", Toast.LENGTH_SHORT).show();
-
         if (isReceiptMode) {
-            // 영수증 모드 → Gemini로 처리
             processReceiptWithGemini(resizedBitmap);
         } else {
-            // 식재료 모드 → Gemini Vision
             processIngredientWithGemini(resizedBitmap);
+        }
+    }
+
+    /**
+     * 로딩 다이얼로그 표시
+     */
+    private void showLoadingDialog() {
+        if (progressDialog == null) {
+            progressDialog = new ProgressDialog(requireContext());
+            progressDialog.setMessage("사진을 처리 중입니다...");
+            progressDialog.setCancelable(false);
+            progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        }
+        progressDialog.show();
+    }
+
+    /**
+     * 로딩 다이얼로그 숨김
+     */
+    private void dismissLoadingDialog() {
+        if (progressDialog != null && progressDialog.isShowing()) {
+            progressDialog.dismiss();
         }
     }
 
     /**
      * 영수증 처리 (Gemini)
      */
-
     private void processReceiptWithGemini(Bitmap bitmap) {
         // Gemini에게 영수증 분석 요청
         geminiService.recognizeReceipt(bitmap, new GeminiService.GeminiCallback() {
@@ -274,6 +288,7 @@ public class CameraFragment extends Fragment {
             public void onSuccess(String result) {
                 // UI 스레드에서 실행
                 requireActivity().runOnUiThread(() -> {
+                    dismissLoadingDialog();
                     navigateToResultFragment(bitmap, result, true);
                 });
             }
@@ -282,12 +297,12 @@ public class CameraFragment extends Fragment {
             public void onError(String error) {
                 // UI 스레드에서 실행
                 requireActivity().runOnUiThread(() -> {
+                    dismissLoadingDialog();
                     Toast.makeText(requireContext(), "영수증 인식 실패: " + error, Toast.LENGTH_SHORT).show();
                 });
             }
         });
     }
-
 
     /**
      * 식재료 처리 (Gemini Vision)
@@ -298,6 +313,7 @@ public class CameraFragment extends Fragment {
             public void onSuccess(String result) {
                 // UI 스레드에서 실행
                 requireActivity().runOnUiThread(() -> {
+                    dismissLoadingDialog();
                     navigateToResultFragment(bitmap, result, false);
                 });
             }
@@ -306,15 +322,13 @@ public class CameraFragment extends Fragment {
             public void onError(String error) {
                 // UI 스레드에서 실행
                 requireActivity().runOnUiThread(() -> {
+                    dismissLoadingDialog();
                     Toast.makeText(requireContext(), "인식 실패: " + error, Toast.LENGTH_SHORT).show();
                 });
             }
         });
     }
 
-    /**
-     * 결과 피그먼트로 이동
-     */
     private void navigateToResultFragment(Bitmap image, String text, boolean isReceipt) {
         ImageResultFragment resultFragment = ImageResultFragment.newInstance(image, text, isReceipt);
 
@@ -328,6 +342,6 @@ public class CameraFragment extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-
+        dismissLoadingDialog();
     }
 }
