@@ -138,8 +138,6 @@ public class IngredientDetailFragment extends Fragment {
             requireActivity().getSupportFragmentManager().popBackStack();
         });
 
-
-
         // 삭제 버튼
         btnDelete.setOnClickListener(v -> {
             deleteIngredient();
@@ -162,9 +160,8 @@ public class IngredientDetailFragment extends Fragment {
                 if (currentIngredient != null) {
                     displayIngredientData();
                 } else {
-                    Toast.makeText(requireContext(),
-                            "재료를 찾을 수 없습니다",
-                            Toast.LENGTH_SHORT).show();
+                    // 커스텀 Toast로 변경
+                    showCustomToast("재료를 찾을 수 없습니다");
                     requireActivity().getSupportFragmentManager().popBackStack();
                 }
             });
@@ -181,24 +178,24 @@ public class IngredientDetailFragment extends Fragment {
         // 수량
         tvQuantity.setText(String.valueOf(currentIngredient.getQuantity()));
 
-        // 등록일 (timestamp → 날짜 문자열)
+
         String registeredDate = dateFormat.format(
                 new Date(currentIngredient.getRegisteredDate())
         );
         tvRegisteredDate.setText(registeredDate);
 
-        // 소비기한 (timestamp → 날짜 문자열)
+
         String expiryDate = dateFormat.format(
                 new Date(currentIngredient.getExpiryDate())
         );
         tvExpiryDate.setText(expiryDate);
 
-        // ✨ 재료 이름 클릭 리스너 - 이름 수정 Dialog
+
         tvIngredientName.setOnClickListener(v -> {
             showEditNameDialog();
         });
 
-        // ✨ 수량 감소 버튼
+
         btnDecreaseQuantity.setOnClickListener(v -> {
             int currentQuantity = currentIngredient.getQuantity();
             if (currentQuantity > 1) {  // 최소 1개
@@ -206,11 +203,12 @@ public class IngredientDetailFragment extends Fragment {
                 tvQuantity.setText(String.valueOf(currentIngredient.getQuantity()));
                 viewModel.update(currentIngredient);  // DB 업데이트
             } else {
-                Toast.makeText(requireContext(), "최소 수량은 1개입니다", Toast.LENGTH_SHORT).show();
+                // 커스텀 Toast로 변경
+                showCustomToast("최소 1개 이상 필요합니다");
             }
         });
 
-        // ✨ 수량 증가 버튼
+
         btnIncreaseQuantity.setOnClickListener(v -> {
             int currentQuantity = currentIngredient.getQuantity();
             currentIngredient.setQuantity(currentQuantity + 1);
@@ -229,8 +227,6 @@ public class IngredientDetailFragment extends Fragment {
         });
     }
 
-
-
     /**
      * 재료 삭제
      */
@@ -242,9 +238,8 @@ public class IngredientDetailFragment extends Fragment {
         // ViewModel을 통해 삭제
         viewModel.delete(currentIngredient);
 
-        Toast.makeText(requireContext(),
-                currentIngredient.getName() + "이(가) 삭제되었습니다",
-                Toast.LENGTH_SHORT).show();
+        // 커스텀 Toast로 변경
+        showCustomToast(currentIngredient.getName() + " 삭제 완료");
 
         // 이전 화면으로 돌아가기
         requireActivity().getSupportFragmentManager().popBackStack();
@@ -281,7 +276,7 @@ public class IngredientDetailFragment extends Fragment {
                     // DB 업데이트
                     viewModel.update(currentIngredient);
 
-                    Toast.makeText(requireContext(), "등록일이 변경되었습니다", Toast.LENGTH_SHORT).show();
+                    showCustomToast("등록일 변경 완료");
                 },
                 year,
                 month,
@@ -322,7 +317,7 @@ public class IngredientDetailFragment extends Fragment {
                     // DB 업데이트
                     viewModel.update(currentIngredient);
 
-                    Toast.makeText(requireContext(), "소비기한이 변경되었습니다", Toast.LENGTH_SHORT).show();
+                    showCustomToast("소비기한 변경 완료");
                 },
                 year,
                 month,
@@ -336,11 +331,11 @@ public class IngredientDetailFragment extends Fragment {
      * 재료 이름 수정 Dialog 표시
      */
     private void showEditNameDialog() {
-        // EditText를 포함한 AlertDialog 생성
+
         android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(requireContext());
         builder.setTitle("재료 이름 수정");
 
-        // EditText 생성
+
         final android.widget.EditText input = new android.widget.EditText(requireContext());
         input.setText(currentIngredient.getName());
         input.setSelection(currentIngredient.getName().length());  // 커서를 맨 끝으로
@@ -351,18 +346,19 @@ public class IngredientDetailFragment extends Fragment {
             String newName = input.getText().toString().trim();
 
             if (newName.isEmpty()) {
-                Toast.makeText(requireContext(), "재료 이름을 입력해주세요", Toast.LENGTH_SHORT).show();
+                showCustomToast("재료 이름을 입력하세요");
                 return;
             }
 
-            // 이름 변경
+
             currentIngredient.setName(newName);
             tvIngredientName.setText(newName);
 
-            // DB 업데이트
+
             viewModel.update(currentIngredient);
 
-            Toast.makeText(requireContext(), "재료 이름이 변경되었습니다", Toast.LENGTH_SHORT).show();
+
+            showCustomToast("재료 이름 변경 완료");
         });
 
         builder.setNegativeButton("취소", (dialog, which) -> dialog.cancel());
@@ -371,4 +367,16 @@ public class IngredientDetailFragment extends Fragment {
     }
 
 
+    private void showCustomToast(String message) {
+        LayoutInflater inflater = getLayoutInflater();
+        View layout = inflater.inflate(R.layout.custom_toast, null);
+
+        TextView textView = layout.findViewById(R.id.toast_text);
+        textView.setText(message);
+
+        Toast toast = new Toast(requireContext());
+        toast.setDuration(Toast.LENGTH_SHORT);
+        toast.setView(layout);
+        toast.show();
+    }
 }

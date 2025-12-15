@@ -69,16 +69,16 @@ public class FridgeFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        // UI 초기화
+
         initViews(view);
 
-        // RecyclerView 설정
+
         setupRecyclerView();
 
-        // ViewModel 설정
+
         setupViewModel();
 
-        // 버튼 리스너 설정
+
         setupListeners();
     }
 
@@ -99,16 +99,16 @@ public class FridgeFragment extends Fragment {
      * RecyclerView 설정
      */
     private void setupRecyclerView() {
-        // 2열
+
         androidx.recyclerview.widget.GridLayoutManager gridLayoutManager =
                 new androidx.recyclerview.widget.GridLayoutManager(requireContext(), 2);
         recyclerView.setLayoutManager(gridLayoutManager);
 
-        // Adapter 생성 및 설정
+
         adapter = new IngredientAdapter();
         recyclerView.setAdapter(adapter);
 
-        // Adapter 클릭 리스너 설정
+
         adapter.setOnItemClickListener(new IngredientAdapter.OnItemClickListener() {
             @Override
             public void onDetailClick(Ingredient ingredient) {
@@ -122,22 +122,20 @@ public class FridgeFragment extends Fragment {
      * ViewModel 설정
      */
     private void setupViewModel() {
-        // ViewModel 가져오기
+
         viewModel = new ViewModelProvider(this).get(FridgeViewModel.class);
 
-        // 재료 목록 관찰
-        // 데이터가 변경되면 자동으로 UI 업데이트
         viewModel.getAllIngredients().observe(getViewLifecycleOwner(), ingredients -> {
-            // Adapter에 데이터 전달
+
             adapter.submitList(ingredients);
 
-            // 빈 상태 처리
+
             if (ingredients == null || ingredients.isEmpty()) {
-                // 재료가 없으면 안내 메시지 표시
+
                 tvEmptyState.setVisibility(View.VISIBLE);
                 recyclerView.setVisibility(View.GONE);
             } else {
-                // 재료가 있으면 리스트 표시
+
                 tvEmptyState.setVisibility(View.GONE);
                 recyclerView.setVisibility(View.VISIBLE);
             }
@@ -183,7 +181,7 @@ public class FridgeFragment extends Fragment {
             deleteButtonsContainer.setVisibility(View.VISIBLE);
             fabAdd.hide();  // FloatingActionButton 숨김
 
-            //  배경을 빨간색 그라데이션으로 변경
+
             View root = requireView();
             root.setBackgroundResource(R.drawable.bg_fridge_gradient_delete);
 
@@ -192,7 +190,7 @@ public class FridgeFragment extends Fragment {
             deleteButtonsContainer.setVisibility(View.GONE);
             fabAdd.show();  // FloatingActionButton 표시
 
-            //  배경을 원래 파란색 그라데이션으로 복원
+
             View root = requireView();
             root.setBackgroundResource(R.drawable.bg_fridge_gradient);
         }
@@ -203,18 +201,18 @@ public class FridgeFragment extends Fragment {
         List<Ingredient> selectedIngredients = adapter.getSelectedIngredients();
 
         if (selectedIngredients.isEmpty()) {
-            // 커스텀 Toast로 변경
+
             showCustomToast("삭제할 재료를 선택하세요");
             return;
         }
 
-        // ViewModel을 통해 삭제
+
         viewModel.deleteAll(selectedIngredients);
 
-        // 삭제 모드 해제
+
         toggleDeleteMode();
 
-        // 커스텀 Toast로 변경
+
         showCustomToast(selectedIngredients.size() + "개 재료 삭제 완료");
     }
 
@@ -328,7 +326,7 @@ public class FridgeFragment extends Fragment {
 
         dialogLayout.addView(quantityLayout);
 
-        // 수량 데이터 변수 (배열로 감싸서 내부 클래스에서 수정 가능하게)
+
         final int[] quantity = {1};
 
         // 감소 버튼 리스너
@@ -337,7 +335,7 @@ public class FridgeFragment extends Fragment {
                 quantity[0]--;
                 tvQuantity.setText(String.valueOf(quantity[0]));
             } else {
-                // 커스텀 Toast로 변경
+
                 showCustomToast("최소 1개 이상 필요합니다");
             }
         });
@@ -443,7 +441,7 @@ public class FridgeFragment extends Fragment {
             // DB에 저장
             viewModel.insert(newIngredient);
 
-            // 커스텀 Toast로 변경
+
             showCustomToast(ingredientName + " 추가 완료");
         });
 

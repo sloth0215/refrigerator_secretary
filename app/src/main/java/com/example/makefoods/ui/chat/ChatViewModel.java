@@ -45,13 +45,13 @@ public class ChatViewModel extends AndroidViewModel {
     // 레시피 다이얼로그 이벤트
     private final MutableLiveData<RecipeDialogData> recipeDialogEvent = new MutableLiveData<>();
 
-    // ChatRepository (OpenAI API 호출)
+
     private final ChatRepository chatRepo = new ChatRepositoryImpl(BuildConfig.OPENAI_API_KEY);
 
-    // RecipeRepository (DB 검색)
+
     private final RecipeRepository recipeRepository;
 
-    // IngredientDao (재료 조회)
+
     private final IngredientDao ingredientDao;
 
     public ChatViewModel(Application application) {
@@ -61,7 +61,7 @@ public class ChatViewModel extends AndroidViewModel {
         AppDatabase db = AppDatabase.getInstance(application);
         this.ingredientDao = db.ingredientDao();
 
-        // RecipeRepository 초기화 (레시피 검색용)
+        // 레시피 검색용
         this.recipeRepository = new RecipeRepository(application);
 
         Log.d(TAG, "ChatViewModel 초기화 완료");
@@ -84,7 +84,7 @@ public class ChatViewModel extends AndroidViewModel {
      * 1. 사용자 메시지 추가
      * 2. Gemini로 재료 인식
      * 3. 인식된 재료로 DB에서 레시피 검색
-     * 4. 검색 결과를 메시지로 표시 (DB에 있는 것만!)
+     * 4. 검색 결과를 메시지로 표시
      */
     public void sendUserMessage(String text) {
         // 사용자 메시지 추가
@@ -92,7 +92,7 @@ public class ChatViewModel extends AndroidViewModel {
         list.add(new Message(text, Message.Sender.USER));
         messages.setValue(list);
 
-        // 백그라운드에서 처리
+
         new Thread(() -> {
             try {
                 // 냉장고 재료 조회
@@ -100,17 +100,17 @@ public class ChatViewModel extends AndroidViewModel {
                 String ingredientInfo = buildIngredientInfoString(ingredients);
                 List<Message> recentMessages = getRecentMessages(list, 10);
 
-                // GPT에 요청
+
                 chatRepo.askGpt(text, ingredientInfo, recentMessages, new ChatRepository.Callback() {
                     @Override
                     public void onSuccess(String reply) {
-                        // ===== 응답 형식 확인 =====
+
                         if (reply.startsWith("RECIPE_LIST:")) {
-                            // GPT가 "이런 음식들을 만들 수 있어요" 라고 응답
+
                             List<String> recipeNames = parseRecipeList(reply);
                             Log.d(TAG, "GPT가 추천한 음식: " + recipeNames);
 
-                            // ===== DB에서 실제 레시피 검색 =====
+
                             List<Recipe> foundRecipes = new ArrayList<>();
                             for (String recipeName : recipeNames) {
                                 List<Recipe> results = recipeRepository.searchRecipeByName(recipeName);
@@ -119,14 +119,14 @@ public class ChatViewModel extends AndroidViewModel {
 
                             Log.d(TAG, "DB에서 찾은 레시피: " + foundRecipes.size() + "개");
 
-                            // ===== DB에 있는 레시피만 추천 =====
+
                             if (foundRecipes.isEmpty()) {
-                                // DB에서 찾은 레시피가 없으면 메시지만 표시
+
                                 List<Message> cur = new ArrayList<>(messages.getValue());
                                 cur.add(new Message("이 재료들로는 저장된 레시피가 없네요.", Message.Sender.BOT));
                                 messages.postValue(cur);
                             } else {
-                                // DB에서 찾은 레시피만 추천 (실제로 찾은 레시피들)
+
                                 List<String> foundRecipeNames = new ArrayList<>();
                                 for (Recipe recipe : foundRecipes) {
                                     foundRecipeNames.add(recipe.getName());
@@ -174,19 +174,19 @@ public class ChatViewModel extends AndroidViewModel {
 
         new Thread(() -> {
             try {
-                // ===== RecipeRepository를 통해 DB 검색 =====
+
                 List<Recipe> foundRecipes = recipeRepository.searchRecipesByIngredients(recognizedIngredients);
 
                 Log.d(TAG, "검색 완료: " + foundRecipes.size() + "개 레시피 찾음");
 
-                // ===== 검색 결과를 메시지로 변환 (DB에 있는 것만) =====
+
                 if (foundRecipes.isEmpty()) {
                     // 검색 결과 없음
                     List<Message> cur = new ArrayList<>(messages.getValue());
                     cur.add(new Message("이 재료들로는 저장된 레시피가 없네요.", Message.Sender.BOT));
                     messages.postValue(cur);
                 } else {
-                    // 검색 결과 표시 (DB에서 찾은 것만)
+
                     List<String> recipeNames = new ArrayList<>();
                     for (Recipe recipe : foundRecipes) {
                         recipeNames.add(recipe.getName());
@@ -219,7 +219,7 @@ public class ChatViewModel extends AndroidViewModel {
 
         new Thread(() -> {
             try {
-                // ===== DB에서 정확한 레시피 검색 =====
+
                 List<Recipe> results = recipeRepository.searchRecipeByName(recipeName);
 
                 if (results.isEmpty()) {
@@ -228,7 +228,7 @@ public class ChatViewModel extends AndroidViewModel {
                     cur.add(new Message("죄송해요. 레시피를 찾을 수 없어요.", Message.Sender.BOT));
                     messages.postValue(cur);
                 } else {
-                    // 첫 번째 검색 결과 사용
+
                     Recipe recipe = results.get(0);
                     Log.d(TAG, "레시피 찾음: " + recipe.getName());
 

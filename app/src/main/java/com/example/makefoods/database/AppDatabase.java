@@ -17,7 +17,6 @@ import com.example.makefoods.model.Recipe;
  * - Ingredient: 냉장고에 저장된 재료들
  * - Recipe: CSV에서 로드한 레시피 데이터 (2000개)
  *
- * 모듈화 포인트: 데이터베이스 초기화를 한 곳에서 관리
  */
 @Database(
         entities = {Ingredient.class, Recipe.class},
