@@ -33,34 +33,29 @@
 
 ### 📸 카메라 & 인식 화면
 
-<p align="center">
-  <img src="카메라 시연" width="30%" />
-</p>
+<img width="1198" height="2531" alt="카메라 시연" src="https://github.com/user-attachments/assets/68d53a77-9cbb-4adf-95f3-b90a4f8407ce" style="width: 320px;"/>
 
 
 
 ### 🧊 냉장고 관리 화면
-```
-[여기에 냉장고 목록 화면 스크린샷 추가]
-[여기에 식재료 추가 화면 스크린샷 추가]
-[여기에 삭제 모드 화면 스크린샷 추가]
-```
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/264a6310-d676-472a-aa73-e37cd1aeee35" width="30%" />
+  <img src="https://github.com/user-attachments/assets/d30a4c08-2be8-42c0-b30d-86bcc4ef851b" width="30%" />
+  <img src="https://github.com/user-attachments/assets/5e6da16f-1816-4703-95bd-30fbe2b5a30a" width="30%" />
+</p>
+
 
 ### 💬 채팅 & 레시피 추천 화면
-```
-[여기에 채팅 화면 스크린샷 추가]
-[여기에 레시피 추천 화면 스크린샷 추가]
-[여기에 레시피 상세 정보 화면 스크린샷 추가]
-```
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/65478cbc-d3dc-4ded-8169-8262f7326e87" width="30%" />
+  <img src="https://github.com/user-attachments/assets/161de857-3c64-4ca7-987f-21695a5895e1" width="30%" />
+</p>
 
----
+
 
 ## 🎥 동작 영상
+![냉장고 시연영상](https://github.com/user-attachments/assets/0fc3d3c7-dce6-4e0c-a49b-0c825d1386f7)
 
-### 📱 전체 앱 사용 흐름
-```
-[여기에 전체 동작 영상 추가]
-```
 
 **영상 구성:**
 1. 카메라로 식재료 촬영 및 인식
