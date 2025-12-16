@@ -12,6 +12,6 @@ public interface ChatRepository {
     // 일반 채팅
     void askGpt(String userText, String ingredientInfo, List<Message> chatHistory, Callback cb);
 
-    // 🆕 레시피 상세 전용 (대화 히스토리 무시)
+    //  레시피 상세 전용 (대화 히스토리 무시)
     void askGptRecipeDetail(String recipeName, String ingredientInfo, Callback cb);
 }

@@ -36,6 +36,7 @@ public class ChatRepositoryImpl implements ChatRepository {
                         "- 음식이름3\n" +
 
                         " 냉장고에 있는 재료를 최대한 활용하고, 소비기한 임박한 재료 우선 사용" +
+                        " 사용자가 재료 손질이나 관리법을 물어볼 경우 답변을 8문장을 넘기지 마세요 "+
 
                         "요리 관련 질문에 친절하게 답변하세요";
 

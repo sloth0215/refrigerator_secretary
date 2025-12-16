@@ -207,13 +207,6 @@ public class ChatViewModel extends AndroidViewModel {
         }).start();
     }
 
-    /**
-     * 레시피 상세 정보 조회
-     *
-     * 사용자가 추천된 음식을 클릭했을 때:
-     * 1. RecipeRepository에서 해당 레시피 조회
-     * 2. DB의 상세 정보를 UI에 표시
-     */
     public void requestRecipeDetail(String recipeName) {
         Log.d(TAG, "레시피 상세 조회: " + recipeName);
 
@@ -246,9 +239,7 @@ public class ChatViewModel extends AndroidViewModel {
         }).start();
     }
 
-    /**
-     * 냉장고 재료를 문자열로 변환
-     */
+
     private String buildIngredientInfoString(List<Ingredient> ingredients) {
         if (ingredients == null || ingredients.isEmpty()) {
             return "냉장고가 비어있습니다.";
